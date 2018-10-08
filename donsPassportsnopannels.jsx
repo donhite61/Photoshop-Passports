@@ -53,7 +53,9 @@ function createWindow(){
      cntrlArr[8] = w.add ("edittext", [0, 0, 300, 150], cnArr[0][8], {multiline: true}); 
 
      
-     var butGrp = w.add ("group");   
+     var butGrp = w.add ("group"); 
+      butMake = butGrp.add ("button", undefined, "Make PP");
+      butMake.onClick = makePP;
       butSave = butGrp.add ("button", undefined, "Save PP");
       butSave.onClick = saveData;
       butDelete = butGrp.add ("button", undefined, "Delete PP");
@@ -62,7 +64,32 @@ function createWindow(){
       butAdd.onClick = newPP;
 
       return w;
-  };
+      }
+  
+function makePP(){
+    alert('but make pressed');
+    var doc = app.activeDocument;
+    var doc2 = app.activeDocument;
+    var startDisplayDialogs = displayDialogs;
+	var startRulerUnits = preferences.rulerUnits;
+	var startTypeUnits = preferences.typeUnits;
+	
+	var displayDialogs = DialogModes.NO;
+	preferences.rulerUnits = Units.MM;
+	//preferences.typeUnits = TypeUnits.MM;
+
+	if ( doc.width < doc.height) {
+        alert('this script expects a horizontal photo');
+        }
+    else{
+		displayDialogs = DialogModes.NO;
+		activeDocument.resizeImage( null, 50.8, 300, ResampleMethod.BICUBIC );
+	}
+	preferences.rulerUnits = startRulerUnits;
+	preferences.typeUnits = startTypeUnits;
+    displayDialogs = startDisplayDialogs;
+
+}
 
 function newPP(){
     var indx = parseInt(cntrlArr[9].selection.index)+1;
